@@ -1,26 +1,12 @@
-import { useForm } from "react-hook-form";
+/* eslint-disable react/react-in-jsx-scope */
 import { FormContainer, MinutesAmountInput, TaskInput } from "./styles";
-import * as zod from 'zod';
-import { zodResolver } from "@hookform/resolvers/zod";
-
-const newCycleFormValidationSchema = Zod.object({
-  task: zod.string().min(1, 'Informe a tarefa'),
-  minutesAmount: zod
-  .number()
-  .min(5, 'O ciclo deve ter no mínimo 5 minutos de duração')
-  .max(60, 'O ciclo deve ter no máximo 60 minutos de duração')
-})
-
-type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
+import { useContext } from "react";
+import { CyclesContext } from "../..";
+import { useFormContext } from "react-hook-form";
 
 export function NewCycleForm() {
-    const { register, handleSubmit, watch, reset } = useForm<NewCycleFormData>({
-      resolver: zodResolver(newCycleFormValidationSchema),
-      defaultValues: {
-        task: '',
-        minutesAmount: 5,
-      },
-    })
+  const { activeCycle } = useContext(CyclesContext)
+  const { register } = useFormContext()
   
   return (
     <FormContainer>
